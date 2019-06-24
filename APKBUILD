@@ -1,14 +1,14 @@
-# Maintainer: Sasha Gerrand <alpine-pkgs@sgerrand.com>
+# Maintainer: Will <alpine-pkgs@ikaruswill.com>
 
 pkgname="glibc"
 pkgver="2.29"
 _pkgrel="0"
 pkgrel="0"
 pkgdesc="GNU C Library compatibility layer"
-arch="x86_64"
-url="https://github.com/sgerrand/alpine-pkg-glibc"
+arch="armhf"
+url="https://github.com/ikaruswill/arm-alpine-pkg-glibc"
 license="LGPL"
-source="https://github.com/sgerrand/docker-glibc-builder/releases/download/$pkgver-$_pkgrel/glibc-bin-$pkgver-$_pkgrel-x86_64.tar.gz
+source="https://github.com/ikaruswill/arm-docker-glibc-builder/releases/download/$pkgver-$_pkgrel/glibc-bin-$pkgver-$_pkgrel-$arch.tar.gz
 nsswitch.conf
 ld.so.conf"
 subpackages="$pkgname-bin $pkgname-dev $pkgname-i18n"
@@ -27,9 +27,9 @@ package() {
   rm -rf "$pkgdir"/usr/glibc-compat/lib/audit
   rm -rf "$pkgdir"/usr/glibc-compat/share
   rm -rf "$pkgdir"/usr/glibc-compat/var
-  ln -s /usr/glibc-compat/lib/ld-linux-x86-64.so.2 ${pkgdir}/lib/ld-linux-x86-64.so.2
-  ln -s /usr/glibc-compat/lib/ld-linux-x86-64.so.2 ${pkgdir}/lib64/ld-linux-x86-64.so.2
-  ln -s /usr/glibc-compat/lib/ld-linux-x86-64.so.2 ${pkgdir}/usr/glibc-compat/lib64/ld-linux-x86-64.so.2
+  ln -s /usr/glibc-compat/lib/ld-linux-armhf.so.3 ${pkgdir}/lib/ld-linux-armhf.so.3
+  ln -s /usr/glibc-compat/lib/ld-linux-armhf.so.3 ${pkgdir}/lib64/ld-linux-armhf.so.3
+  ln -s /usr/glibc-compat/lib/ld-linux-armhf.so.3 ${pkgdir}/usr/glibc-compat/lib64/ld-linux-armhf.so.3
   ln -s /usr/glibc-compat/etc/ld.so.cache ${pkgdir}/etc/ld.so.cache
 }
 
@@ -47,6 +47,6 @@ i18n() {
   cp -a "$srcdir"/usr/glibc-compat/share "$subpkgdir"/usr/glibc-compat
 }
 
-sha512sums="5e7c03f65f1f483bfb643a7d4a4030380d2926734bda35823fed056161a789233d34141e15570e573bff3ea41c477848080f0daed2583d2f076e2857ff6ef3fb  glibc-bin-2.29-0-x86_64.tar.gz
+sha512sums="9a7328753a42f23086592b1c49e6fb51e8af66491d55f917246aaed34455ee40261a547586f74618bbf4d236235072c32b064121313eeec2bed3b5d478b277e1  glibc-bin-2.29-0-armhf.tar.gz
 478bdd9f7da9e6453cca91ce0bd20eec031e7424e967696eb3947e3f21aa86067aaf614784b89a117279d8a939174498210eaaa2f277d3942d1ca7b4809d4b7e  nsswitch.conf
 2912f254f8eceed1f384a1035ad0f42f5506c609ec08c361e2c0093506724a6114732db1c67171c8561f25893c0dd5c0c1d62e8a726712216d9b45973585c9f7  ld.so.conf"
