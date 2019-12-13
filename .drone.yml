@@ -19,7 +19,7 @@ steps:
     sha256: ff2ac6f6d1f0a53c7d6b661147f8e8d13ed5b3ca0ffe2c7b2e870c5178107719
 
 - name: build
-  image: ikaruswill/alpine-abuild
+  image: ikaruswill/alpine-abuild:3.9
   environment:
     RSA_PRIVATE_KEY:
       from_secret: ikaruswill_private_key
@@ -30,7 +30,7 @@ steps:
 
 
 - name: test
-  image: alpine:3.10
+  image: alpine:3.9
   commands:
   - cp ikaruswill.rsa.pub /etc/apk/keys/
   - apk -U add --no-progress --upgrade /packages/builder/armv7/*.apk
