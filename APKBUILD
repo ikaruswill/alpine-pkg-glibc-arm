@@ -5,10 +5,10 @@ pkgver="2.30"
 _pkgrel="0"
 pkgrel="0"
 pkgdesc="GNU C Library compatibility layer"
-arch="armhf"
+arch="armv7"
 url="https://github.com/ikaruswill/arm-alpine-pkg-glibc"
 license="LGPL"
-source="https://github.com/ikaruswill/arm-docker-glibc-builder/releases/download/$pkgver-$_pkgrel/glibc-bin-$pkgver-$_pkgrel-$arch.tar.gz
+source="https://github.com/ikaruswill/arm-docker-glibc-builder/releases/download/$pkgver-$_pkgrel/glibc-bin-$pkgver-$_pkgrel-armv7l.tar.gz
 nsswitch.conf
 ld.so.conf"
 subpackages="$pkgname-bin $pkgname-dev $pkgname-i18n"
