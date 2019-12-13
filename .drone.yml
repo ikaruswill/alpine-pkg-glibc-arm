@@ -33,8 +33,7 @@ steps:
   image: alpine:3.10
   commands:
   - cp ikaruswill.rsa.pub /etc/apk/keys/
-  - ls -laR /packages/builder/
-  - apk -U add --no-progress --upgrade /packages/builder/armv7l/*.apk
+  - apk -U add --no-progress --upgrade /packages/builder/armv7/*.apk
   volumes:
   - name: packages
     path: /packages
@@ -45,7 +44,8 @@ steps:
     api_key:
       from_secret: github_token
     files:
-    - /packages/builder/*
+    - /packages/builder/armv7/*
+    - /packages/*
     checksum:
     - sha512
   volumes:
