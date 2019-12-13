@@ -45,7 +45,6 @@ steps:
       from_secret: github_token
     files:
     - /packages/builder/armv7/*
-    - /packages/*
     checksum:
     - sha512
   volumes:
