@@ -1,7 +1,7 @@
 # Maintainer: Will <alpine-pkgs@ikaruswill.com>
 
 pkgname="glibc"
-pkgver="2.29"
+pkgver="2.30"
 _pkgrel="0"
 pkgrel="0"
 pkgdesc="GNU C Library compatibility layer"

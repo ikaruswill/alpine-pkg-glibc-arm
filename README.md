@@ -1,10 +1,12 @@
 # arm-alpine-pkg-glibc
 
-This is the GNU C library as a Alpine Linux package for `armhf` to run binaries linked against `glibc`. This package utilizes a custom built glibc binary based on the vanilla glibc source. Built binary artifacts come from https://github.com/ikaruswill/arm-docker-glibc-builder.
+[![Build Status](https://drone.ikaruswill.com/api/badges/ikaruswill/arm-alpine-pkg-glibc/status.svg)](https://drone.ikaruswill.com/ikaruswill/arm-alpine-pkg-glibc) ![x86_64](https://img.shields.io/badge/armv7l-supported-brightgreen.svg)
+
+This is the [GNU C Library](https://gnu.org/software/libc/) as a Alpine Linux package for `armv7l` to run binaries linked against `glibc`. This package utilizes a custom built glibc binary based on the vanilla glibc source. Built binary artifacts come from https://github.com/ikaruswill/arm-docker-glibc-builder.
 
 ## Releases
 
-See the [releases page](https://github.com/ikaruswill/arm-alpine-pkg-glibc/releases) for the latest download links. If you are using tools like `localdef` you will need the `glibc-bin` and `glibc-i18n` packages in addition to the `glibc` package.
+See the [releases page](https://github.com/sgerrand/alpine-pkg-glibc/releases) for the latest download links. If you are using tools like `localedef` you will need the `glibc-bin` and `glibc-i18n` packages in addition to the `glibc` package.
 
 ## Installing
 
