@@ -14,7 +14,7 @@ steps:
   image: plugins/download
   settings:
     source: https://alpine-pkgs.ikaruswill.com/ikaruswill-alpine-pkgs.pub
-    sha256: c6527138b38a7bc674f38e8fb09e547c37fbf0d5c5d1bcd59620f352b967acb1
+    sha256: 37480e5fba2927c21b36a04ffc296f44b813f3207bb2ad7eec9dd96c0439478c
 
 - name: build
   image: ikaruswill/alpine-abuild:v10
@@ -41,7 +41,7 @@ steps:
   image: plugins/github-release
   settings:
     api_key:
-      from_secret: github_token
+      from_secret: github_release_public_token
     files:
     - packages/builder/armv7/*
     checksum:
@@ -71,6 +71,12 @@ name: docker_password
 get:
   path: drone-secrets
   name: docker_password
+---
+kind: secret
+name: github_release_public_token
+get:
+  path: drone-secrets
+  name: github_release_public_token
 ---
 kind: secret
 name: ikaruswill_alpine_pkgs_private_key
