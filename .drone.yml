@@ -1,42 +1,38 @@
 kind: pipeline
 name: default
-type: docker
+type: kubernetes
 
 platform:
   os: linux
   arch: arm
 
-workspace:
-  base: /home/builder/package
-  path: ''
+clone:
+  depth: 1
 
 steps:
-
 - name: download public key
   image: plugins/download
   settings:
-    source: https://alpine-pkgs.ikaruswill.com/ikaruswill.rsa.pub
-    sha256: ff2ac6f6d1f0a53c7d6b661147f8e8d13ed5b3ca0ffe2c7b2e870c5178107719
+    source: https://alpine-pkgs.ikaruswill.com/ikaruswill-alpine-pkgs.pub
+    sha256: c6527138b38a7bc674f38e8fb09e547c37fbf0d5c5d1bcd59620f352b967acb1
 
 - name: build
-  image: ikaruswill/alpine-abuild:3.9
+  image: ikaruswill/alpine-abuild:v10
   environment:
     RSA_PRIVATE_KEY:
-      from_secret: ikaruswill_private_key
-    RSA_PRIVATE_KEY_NAME: ikaruswill.rsa
-  volumes:
-  - name: packages
-    path: /packages
-
+      from_secret: ikaruswill_alpine_pkgs_private_key
+    RSA_PRIVATE_KEY_NAME: ikaruswill-alpine-pkgs
+    REPODEST: /drone/src/packages
+  commands:
+  - cp * /home/builder/package/
+  - cd /home/builder/package
+  - abuilder -r
 
 - name: test
-  image: alpine:3.9
+  image: alpine:3.10
   commands:
-  - cp ikaruswill.rsa.pub /etc/apk/keys/
-  - apk -U add --no-progress --upgrade /packages/builder/armv7/*.apk
-  volumes:
-  - name: packages
-    path: /packages
+  - cp ikaruswill-alpine-pkgs.pub /etc/apk/keys/
+  - apk -U add --no-progress --upgrade packages/builder/armv7/*.apk
 
 - name: deploy
   image: plugins/github-release
@@ -44,20 +40,33 @@ steps:
     api_key:
       from_secret: github_token
     files:
-    - /packages/builder/armv7/*
+    - packages/builder/armv7/*
     checksum:
     - sha512
-  volumes:
-  - name: packages
-    path: /packages
   when:
-    event:
-    - tag
+    ref:
+    - refs/tags/*
 
 trigger:
-  branch:
-  - master
+  ref:
+  - refs/heads/master
+  - refs/tags/*
 
-volumes:
-- name: packages
-  temp: {}
+---
+kind: secret
+name: docker_username
+get:
+  path: drone-secrets
+  name: docker_username
+---
+kind: secret
+name: docker_password
+get:
+  path: drone-secrets
+  name: docker_password
+---
+kind: secret
+name: ikaruswill_alpine_pkgs_private_key
+get:
+  path: drone-secrets
+  name: ikaruswill_alpine_pkgs_private_key
