@@ -33,16 +33,25 @@ jobs:
       - run:
           name: Create Docker volumes
           command: |
-            docker create --name input --volume /home/builder/package alpine:3.9 /bin/true
+            docker create --name input --volume /home/builder/package alpine:3.11 /bin/true
             docker cp . input:/home/builder/package/
-            docker create --name output --volume /packages alpine:3.9 /bin/true
+            docker create --name output --volume /packages alpine:3.11 /bin/true
             docker cp sgerrand.rsa.pub output:/packages/
       - run:
           name: Build packages
-          command: docker run --env RSA_PRIVATE_KEY="$RSA_PRIVATE_KEY" --env RSA_PRIVATE_KEY_NAME="sgerrand.rsa" --volumes-from input --volumes-from output sgerrand/alpine-abuild:3.9
+          command: |
+            docker run \
+              --env RSA_PRIVATE_KEY="$RSA_PRIVATE_KEY" \
+              --env RSA_PRIVATE_KEY_NAME="sgerrand.rsa" \
+              --volumes-from input \
+              --volumes-from output \
+              sgerrand/alpine-abuild:3.11
       - run:
           name: Test package installation
-          command: docker run --volumes-from output alpine:3.9 sh -c "cp /packages/sgerrand.rsa.pub /etc/apk/keys/ && apk -U add --no-progress --upgrade /packages/builder/x86_64/*.apk"
+          command: |
+            docker run \
+              --volumes-from output \
+              alpine:3.11 sh -c "cp /packages/sgerrand.rsa.pub /etc/apk/keys/ && apk -U add --no-progress --upgrade /packages/builder/x86_64/*.apk"
       - run:
           name: Extract packages
           command: |
@@ -60,6 +69,22 @@ jobs:
       - store_artifacts:
           destination: pkgs
           path: packages
+  doctests:
+    <<: *basic-job
+    docker:
+      - image: alpine:latest
+    steps:
+      - run:
+          name: Install required packages
+          command: apk add --no-cache git openssh-client
+      - checkout
+      - run:
+          name: Parse and run installation steps
+          command: |
+            while read line
+            do  
+              echo "$line" | sed -e '/^[#:]/D' -e '/^$/D' -e '/^apk/p' -e '/^wget/p' -e '/^[A-z]/D' | sh -ex 
+            done < README.md
   upload-master:
     <<: *upload-job
     steps:
@@ -90,6 +115,7 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - doctests
       - upload-master:
           filters:
             branches:

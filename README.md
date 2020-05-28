@@ -12,14 +12,15 @@ See the [releases page](https://github.com/sgerrand/alpine-pkg-glibc/releases) f
 
 The current installation method for these packages is to pull them in using `wget` or `curl` and install the local file with `apk`:
 
-    apk --no-cache add ca-certificates wget
     wget -q -O /etc/apk/keys/ikaruswill-alpine-pkgs.pub https://alpine-pkgs.ikaruswill.com/ikaruswill-alpine-pkgs.pub
-    wget https://github.com/ikaruswill/arm-alpine-pkg-glibc/releases/download/2.30-r0/glibc-2.30-r0.apk
-    apk add glibc-2.30-r0.apk
+    wget https://github.com/ikaruswill/arm-alpine-pkg-glibc/releases/download/2.31-r0/glibc-2.31-r0.apk
+    apk add glibc-2.31-r0.apk
 
 ## Locales
 
 You will need to generate your locale if you would like to use a specific one for your glibc application. You can do this by installing the `glibc-i18n` package and generating a locale using the `localedef` binary. An example for en_US.UTF-8 would be:
 
-    apk add glibc-bin-2.30-r0.apk glibc-i18n-2.30-r0.apk
+    wget https://github.com/ikaruswill/arm-alpine-pkg-glibc/releases/download/2.31-r0/glibc-bin-2.31-r0.apk
+    wget https://github.com/ikaruswill/arm-alpine-pkg-glibc/releases/download/2.31-r0/glibc-i18n-2.31-r0.apk
+    apk add glibc-bin-2.31-r0.apk glibc-i18n-2.31-r0.apk
     /usr/glibc-compat/bin/localedef -i en_US -f UTF-8 en_US.UTF-8
