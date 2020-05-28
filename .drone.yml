@@ -27,6 +27,9 @@ steps:
   - cp * /home/builder/package/
   - cd /home/builder/package
   - abuilder -r
+  volumes:
+  - name: builder
+    path: /home/builder/package
 
 - name: test
   image: alpine:3.10
@@ -51,6 +54,10 @@ trigger:
   ref:
   - refs/heads/master
   - refs/tags/*
+
+volumes:
+- name: builder
+  temp: {}
 
 ---
 kind: secret
